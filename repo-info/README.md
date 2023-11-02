@@ -19,3 +19,17 @@ The latter 2 values will help us in shortlisting a project to fix flaky tests in
     * For `py-data.csv`: `repo-info/get_repo_info.py -f py-data.csv -c 'Project URL' -t <github-access-token>`
 
 The new file will be saved with the name `repo_info.csv` inside the `repo-info` directory.
+
+# Unmaintained Repos
+
+This script scans pr-data.csv and updates the status of tests which belong to repos that don't have any commits to the main/master branch in the past 2 years to `Unmainatained`.  
+This script uses the output(repo-info.csv) of the above repo info script(get_repo_info.py) to fetch the repo names and months since last commit.
+
+## To run:
+* Run the above `get_repo_info.py` script to obtain `repo-info.csv`
+* Run `unmaintained_repo.py` from the root directory. Remember to use a github access token to overcome the rate limit:
+```
+python3 repo-info/unmaintained_repo.py --t <github-access-token>
+```
+
+This will modify `pr-data.csv`.
