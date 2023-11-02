@@ -9,7 +9,6 @@ args = parser.parse_args()
 
 GITHUB_API_RATE_LIMIT = 6000
 GITHUB_ACCESS_TOKEN = args.t
-#GITHUB_ACCESS_TOKEN = "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"
 g = Github(GITHUB_ACCESS_TOKEN)
 
 with open('repo-info/repo-info.csv', mode ='r') as file:
@@ -34,7 +33,6 @@ with open(input_csv, 'r', newline='') as input_file, open(output_csv, 'w', newli
     writer = csv.writer(output_file)
 
     for row in reader:
-        # Check if the current row has enough columns
         counter+=1
         if column_to_change < len(row) and row[0] in set:
             # Update the desired column with the new value
@@ -45,5 +43,5 @@ with open(input_csv, 'r', newline='') as input_file, open(output_csv, 'w', newli
             row[column_to_change] = "Unmaintained"
         writer.writerow(row)
         print(counter)
-#     os.remove(input_csv)
-#     os.rename(output_csv, 'pr-data.csv')
+    os.remove(input_csv)
+    os.rename(output_csv, 'pr-data.csv')
