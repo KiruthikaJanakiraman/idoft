@@ -32,4 +32,4 @@ This script uses the output(repo-info.csv) of the above repo info script(get_rep
 python3 repo-info/unmaintained_repo.py --t <github-access-token>
 ```
 
-This will modify `pr-data.csv`.
+This will modify `pr-data.csv` by updating the `Status` of unmaintained repos to `Unmaintained` and adding the last commit date to the `Notes` column.
