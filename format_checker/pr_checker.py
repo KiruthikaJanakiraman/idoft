@@ -53,8 +53,8 @@ data = {
         "MovedOrRenamed",
         "Claimed",
         "MovedToGradle",
-        "FixedOrder"
-        "Unmaintained",
+        "FixedOrder",
+        "Unmaintained"
     ],
     "PR Link": re.compile(
         r"((https:\/\/github.com\/((\w|\.|-)+\/)+)(pull\/\d+))"
