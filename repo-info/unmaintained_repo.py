@@ -2,6 +2,7 @@ import csv
 import os
 from github import Github
 import argparse
+import pandas as pd
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--t', type=str, help='GitHub access token to overcome API rate limitations')
@@ -23,25 +24,21 @@ with open('repo-info/repo-info.csv', mode ='r') as file:
 
 
 input_csv = 'pr-data.csv'
-output_csv = 'temp.csv'
+output_csv = 'output_csv'
 
 column_to_change = 5  # Change the second column (0-indexed)
 counter = 0
 # Open the input CSV file in read mode and the output CSV file in write mode
-with open(input_csv, 'r', newline='') as input_file, open(output_csv, 'w', newline='') as output_file:
-    reader = csv.reader(input_file)
-    writer = csv.writer(output_file)
+df = pd.read_csv(input_csv)
+for index, row in df.iterrows():
+   # print( pd.isna(row[column_to_change]))
+    if column_to_change < len(row) and pd.isna(row[column_to_change]) and row[0] in set:
+        # Update the desired column with the new value
+        print("inside if: "+str(index))
+        repo_name = row[0].split('github.com/')[1]
+        repo = Github(GITHUB_ACCESS_TOKEN).get_repo(repo_name)
+        branch = repo.get_branch(repo.default_branch)
+        df.at[index, -1] = str(branch.commit.commit.author.date).split(" ")[0]
+        df.at[index, column_to_change] = "Unmaintained"
 
-    for row in reader:
-        counter+=1
-        if column_to_change < len(row) and row[0] in set:
-            # Update the desired column with the new value
-            repo_name = row[0].split('github.com/')[1]
-            repo = Github(GITHUB_ACCESS_TOKEN).get_repo(repo_name)
-            branch = repo.get_branch(repo.default_branch)
-            row[-1] = str(branch.commit.commit.author.date).split(" ")[0]
-            row[column_to_change] = "Unmaintained"
-        writer.writerow(row)
-        print(counter)
-    os.remove(input_csv)
-    os.rename(output_csv, 'pr-data.csv')
+df.to_csv(output_csv, index=False)
